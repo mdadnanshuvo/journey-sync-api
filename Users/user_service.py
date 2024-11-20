@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-import hashlib
+import bcrypt
 import uuid
 import json
 import os
@@ -12,23 +12,33 @@ USER_DATA_FILE = './data/users_data.json'
 # Function to load users from the JSON file
 def load_users():
     if os.path.exists(USER_DATA_FILE):
-        with open(USER_DATA_FILE, 'r') as file:
-            return json.load(file)
+        try:
+            with open(USER_DATA_FILE, 'r') as file:
+                return json.load(file)
+        except json.JSONDecodeError:
+            return {}  # Return empty dict if JSON is corrupted
     return {}
 
 # Function to save users to the JSON file
 def save_users(users):
-    with open(USER_DATA_FILE, 'w') as file:
-        json.dump(users, file, indent=4)
+    try:
+        with open(USER_DATA_FILE, 'w') as file:
+            json.dump(users, file, indent=4)
+    except IOError as e:
+        print(f"Error saving users: {e}")
+        return False
+    return True
 
-# Function to hash passwords securely
+# Function to hash passwords securely using bcrypt
 def hash_password(password):
-    return hashlib.sha256(password.encode()).hexdigest()
+    # bcrypt generates a salt automatically
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password.encode(), salt).decode()
 
 # Function to validate user login
 def validate_login(email, password, users):
     for user_id, user in users.items():
-        if user['email'] == email and user['password'] == hash_password(password):
+        if user['email'] == email and bcrypt.checkpw(password.encode(), user['password'].encode()):
             return user_id
     return None
 
@@ -46,6 +56,10 @@ def register_user():
     if role not in ['Admin', 'User']:
         return jsonify({"error": "Role must be either 'Admin' or 'User'"}), 400
     
+    # Check if the email already exists
+    if any(user['email'] == data['email'] for user in users.values()):
+        return jsonify({"error": "Email already exists"}), 400
+    
     # Hash password and create user
     user_id = str(uuid.uuid4())  # Generate a unique user ID
     users[user_id] = {
@@ -54,8 +68,9 @@ def register_user():
         "password": hash_password(data['password']),
         "role": role  # Store the user role
     }
-    save_users(users)  # Save the updated users data to file
-    return jsonify({"message": "User registered successfully", "user_id": user_id}), 201
+    if save_users(users):  # Save the updated users data to file
+        return jsonify({"message": "User registered successfully", "user_id": user_id}), 201
+    return jsonify({"error": "Error saving user data"}), 500
 
 # Login user
 @app.route('/login', methods=['POST'])
