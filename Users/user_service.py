@@ -7,7 +7,7 @@ import os
 app = Flask(__name__)
 
 # Path to store user data in a JSON file
-USER_DATA_FILE = '/data/users_data.json'
+USER_DATA_FILE = './data/users_data.json'
 
 # Function to load users from the JSON file
 def load_users():
