@@ -1,0 +1,14 @@
+apispec==6.7.1
+bcrypt==4.2.1
+blinker==1.9.0
+click==8.1.7
+Flask==3.1.0
+flask-smorest==0.45.0
+flask-swagger-ui==4.11.1
+itsdangerous==2.2.0
+Jinja2==3.1.4
+MarkupSafe==3.0.2
+marshmallow==3.23.1
+packaging==24.2
+webargs==8.6.0
+Werkzeug==3.1.3
