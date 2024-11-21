@@ -1,14 +1,20 @@
 from flask import Flask, jsonify, request
 import bcrypt
 import uuid
+import jwt
+import datetime
 from flask_smorest import Api, Blueprint
 from flask_swagger_ui import get_swaggerui_blueprint
+from functools import wraps
 from Users.schemas.user_schema import UserRegisterSchema  # Import the schema
 
 app = Flask(__name__)
 
 # In-memory user data storage
 users = {}
+
+# Secret key for encoding JWT token
+app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a secure key
 
 # Set the API title and OpenAPI version in your app configuration
 app.config['API_TITLE'] = 'User Registration API'
@@ -35,7 +41,7 @@ def hash_password(password):
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode(), salt).decode()
 
-# Function to validate user login
+# Function to validate user login (check email and password)
 def validate_login(email, password):
     for user_id, user in users.items():
         if user['email'] == email and bcrypt.checkpw(password.encode(), user['password'].encode()):
@@ -92,6 +98,64 @@ def get_users():
     }
     return jsonify(sanitized_users)
 
+# POST /login: Authenticate a user and provide an access token
+@blp.route('/login', methods=['POST'])  # Change to '/login' (no '/users' prefix)
+def login_user():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    # Validate user credentials
+    user_id = validate_login(email, password)
+    if not user_id:
+        return jsonify({"error": "Invalid email or password"}), 401
+
+    # Create JWT token
+    expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # 1 hour expiration
+    token = jwt.encode({'user_id': user_id, 'exp': expiration_time}, app.config['SECRET_KEY'], algorithm='HS256')
+
+    return jsonify({'message': 'Login successful', 'access_token': token}), 200
+
+# Token required decorator to validate JWT
+def token_required(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        token = None
+
+        # Check if the token is provided in the Authorization header
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization'].split(" ")[1]  # Extract token from "Bearer <token>"
+
+        if not token:
+            return jsonify({"error": "Token is missing!"}), 403
+
+        try:
+            # Decode the JWT token
+            decoded_token = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            current_user_id = decoded_token['user_id']
+        except jwt.ExpiredSignatureError:
+            return jsonify({"error": "Token has expired!"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"error": "Invalid token!"}), 401
+
+        # Pass current_user_id to the route function
+        return f(current_user_id, *args, **kwargs)
+
+    return decorator
+
+# Profile endpoint to get the current user's profile
+@blp.route('/profile', methods=['GET'])
+@token_required
+def get_profile(current_user_id):
+    # Fetch the user data from the in-memory storage
+    user = users.get(current_user_id)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Return user profile excluding password
+    user_profile = {key: value for key, value in user.items() if key != 'password'}
+    return jsonify(user_profile)
+
 # Register Blueprint to the API
 api.register_blueprint(blp)
 
@@ -106,7 +170,7 @@ def create_swagger():
             "description": "An API for registering and managing users"
         },
         "paths": {
-            "/register": {  # Change the path here to /register
+            "/register": {
                 "post": {
                     "summary": "Register a new user",
                     "operationId": "registerUser",
@@ -134,15 +198,39 @@ def create_swagger():
                                     }
                                 }
                             }
-                        },
-                        "400": {
-                            "description": "Bad Request",
+                        }
+                    }
+                }
+            },
+            "/login": {
+                "post": {
+                    "summary": "Authenticate a user and provide an access token",
+                    "operationId": "loginUser",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {"type": "string", "format": "email"},
+                                        "password": {"type": "string"}
+                                    },
+                                    "required": ["email", "password"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Login successful",
                             "content": {
                                 "application/json": {
                                     "schema": {
                                         "type": "object",
                                         "properties": {
-                                            "error": {"type": "string"}
+                                            "message": {"type": "string"},
+                                            "access_token": {"type": "string"}
                                         }
                                     }
                                 }
@@ -151,24 +239,26 @@ def create_swagger():
                     }
                 }
             },
-            "/users": {
+            "/profile": {
                 "get": {
-                    "summary": "Get all users",
-                    "operationId": "getUsers",
+                    "summary": "Get current user's profile",
+                    "operationId": "getProfile",
+                    "security": [
+                        {
+                            "bearerAuth": []
+                        }
+                    ],
                     "responses": {
                         "200": {
-                            "description": "List of all users",
+                            "description": "User profile data",
                             "content": {
                                 "application/json": {
                                     "schema": {
                                         "type": "object",
-                                        "additionalProperties": {
-                                            "type": "object",
-                                            "properties": {
-                                                "name": {"type": "string"},
-                                                "email": {"type": "string"},
-                                                "role": {"type": "string"}
-                                            }
+                                        "properties": {
+                                            "name": {"type": "string"},
+                                            "email": {"type": "string"},
+                                            "role": {"type": "string"}
                                         }
                                     }
                                 }
@@ -190,10 +280,17 @@ def create_swagger():
                     },
                     "required": ["name", "email", "password"]
                 }
+            },
+            "securitySchemes": {
+                "bearerAuth": {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
             }
         }
     })
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,port=5000)
