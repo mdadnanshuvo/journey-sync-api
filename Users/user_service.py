@@ -14,10 +14,10 @@ app = Flask(__name__)
 users = {}
 
 # Secret key for encoding JWT token
-app.config['SECRET_KEY'] = 'your_secret_key'  # Change this to a secure key
+app.config['SECRET_KEY'] = 'random_secret_key_for_assignment'  # Change this to a secure key
 
 # Set the API title and OpenAPI version in your app configuration
-app.config['API_TITLE'] = 'User Registration API'
+app.config['API_TITLE'] = 'random_secret_key_for_assignment'
 app.config['API_VERSION'] = '1.0.0'
 app.config['OPENAPI_VERSION'] = '3.0.2'  # OpenAPI version
 
@@ -99,7 +99,7 @@ def get_users():
     return jsonify(sanitized_users)
 
 # POST /login: Authenticate a user and provide an access token
-@blp.route('/login', methods=['POST'])  # Change to '/login' (no '/users' prefix)
+@blp.route('/login', methods=['POST'])
 def login_user():
     data = request.get_json()
     email = data.get('email')
@@ -110,11 +110,18 @@ def login_user():
     if not user_id:
         return jsonify({"error": "Invalid email or password"}), 401
 
-    # Create JWT token
+    # Create JWT token with user name, email, and role
+    user = users[user_id]
     expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)  # 1 hour expiration
-    token = jwt.encode({'user_id': user_id, 'exp': expiration_time}, app.config['SECRET_KEY'], algorithm='HS256')
+    token = jwt.encode({
+        'user_id': user_id,
+        'name': user['name'],  # Include name in the JWT
+        'role': user['role'],  # Include role in the JWT
+        'exp': expiration_time
+    }, app.config['SECRET_KEY'], algorithm='HS256')
 
     return jsonify({'message': 'Login successful', 'access_token': token}), 200
+
 
 # Token required decorator to validate JWT
 def token_required(f):
