@@ -19,7 +19,7 @@ This project is a **Journey Sync API**, designed to manage multiple services rel
 
 The **Journey Sync API** is designed to simulate a multi-service architecture, where three main services are running:
 
-- **User Service**: Manages user registration,login and profile.
+- **User Service**: Manages user registration, login and profile.
 - **Auth Service**: Handles and validate access token created in user_service/login with the functionalities of specifing role .
 - **Destination Service**: Manages travel destinations and associated data.
 
