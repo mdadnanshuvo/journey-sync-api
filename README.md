@@ -39,6 +39,31 @@ Each service is self-contained and runs on a separate port, making it easy to sc
 
 ---
 
+
+## Project Directory Structure
+
+```plaintext
+journey-sync-api/
+│
+├── Users/
+│   ├── user_service.py       # User management logic
+│   └── schemas/
+│       └── user_schema.py    # User schemas for validation
+│
+├── Auth/
+│   ├── auth_service.py       # Authentication logic
+│   └── schemas/
+│       └── auth_schema.py    # Authentication schemas
+│
+├── Destination/
+│   ├── destination_service.py # Destination management logic
+│   └── schemas/
+│       └── destination_schema.py # Destination schemas
+│
+├── run_services.py           # Main script to start all services
+├── requirements.txt          # Python dependencies
+└── README.md                 # Project documentation
+```
 ## Getting Started
 
 Follow the steps below to set up and run the project on your local machine.
