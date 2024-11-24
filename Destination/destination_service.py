@@ -4,7 +4,11 @@ from flask_swagger_ui import get_swaggerui_blueprint
 import jwt
 import uuid
 from functools import wraps
-from schemas.destination_schema import DestinationSchema  # Adjust path if needed
+from Destination.schemas.destination_schema import DestinationSchema  # Adjust path if needed
+
+
+
+
 
 # Flask app setup
 app = Flask(__name__)
@@ -96,6 +100,10 @@ def delete_destination(destination_id):
 
 # Register Blueprint
 api.register_blueprint(blp)
+
+@app.route("/")
+def home():
+    return "Destination Service is running!"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)

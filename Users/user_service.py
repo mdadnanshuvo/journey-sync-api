@@ -7,6 +7,9 @@ from flask_smorest import Api, Blueprint
 from flask_swagger_ui import get_swaggerui_blueprint
 from functools import wraps
 from Users.schemas.user_schema import UserRegisterSchema  # Import the schema
+from flask import Flask, jsonify
+
+
 
 app = Flask(__name__)
 
@@ -20,6 +23,8 @@ app.config['SECRET_KEY'] = 'random_secret_key_for_assignment'  # Change this to 
 app.config['API_TITLE'] = 'random_secret_key_for_assignment'
 app.config['API_VERSION'] = '1.0.0'
 app.config['OPENAPI_VERSION'] = '3.0.2'  # OpenAPI version
+
+
 
 # Initialize Flask-Smorest for OpenAPI documentation
 api = Api(app)
@@ -299,5 +304,9 @@ def create_swagger():
     })
 
 
+
+def home():
+    return "User Service is running!"
+
 if __name__ == '__main__':
-    app.run(debug=True,port=5000)
+    app.run(debug=True, port=5000)

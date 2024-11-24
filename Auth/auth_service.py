@@ -187,5 +187,11 @@ def swagger_spec():
         }
     })
 
+
+
+@app.route("/")
+def home():
+    return "Auth Service is running!"
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)  # Running on a different port for the auth_service
+    app.run(debug=True, port=5001) 

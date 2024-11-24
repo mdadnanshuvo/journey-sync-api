@@ -1,1 +1,62 @@
-# journey-sync-api
+
+# Journey Sync API
+
+This project is a **Journey Sync API**, designed to manage multiple services related to **User Management**, **Authentication**, and **Destination Management** in a distributed manner. The API is built using **Flask** for each service and allows easy interaction between various components through separate services running on different ports.
+
+## Table of Contents
+
+- [Journey Sync API](#journey-sync-api)
+  - [Table of Contents](#table-of-contents)
+  - [Project Overview](#project-overview)
+  - [Tech Stack](#tech-stack)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Setting Up the Project](#setting-up-the-project)
+
+---
+
+## Project Overview
+
+The **Journey Sync API** is designed to simulate a multi-service architecture, where three main services are running:
+
+- **User Service**: Manages user registration,login and profile.
+- **Auth Service**: Handles and validate access token created in user_service/login with the functionalities of specifing role .
+- **Destination Service**: Manages travel destinations and associated data.
+
+Each service is self-contained and runs on a separate port, making it easy to scale, modify, and maintain.
+
+---
+
+## Tech Stack
+
+- **Backend Framework**: Flask
+- **Database**: (In-class memory)
+- **Environment**: Python 3.x
+- **Virtual Environment**: `venv`
+- **Development Tools**: 
+  - **Swagger UI** for API testing
+  - **VS Code** 
+
+---
+
+## Getting Started
+
+Follow the steps below to set up and run the project on your local machine.
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- **Python 3.x**
+- **pip** (Python package installer)
+- **Virtual Environment** (`venv`)
+  
+If you don’t have `pip` or `venv` installed, follow the installation guides on the official Python website:  
+- [Install Python](https://www.python.org/downloads/)
+
+### Setting Up the Project
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/yourusername/journey-sync-api   cd journey-sync-api
