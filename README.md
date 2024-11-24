@@ -98,26 +98,30 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
    
    ```
    venv\Scripts\activate
+  
   **On macOS/Linux**
   
-```
+  ```
  source venv/bin/activate
 ```
+
 4. **Intall dependencies**
+   
    ```
-   pip install -r requirements.txt
+    pip install -r requirements.txt
 
 ### Running the server
 
 1. **Run all services using run_services.py script**
+2. 
    ```
    python run_services.py
    
 Each service will start on its own port:
 
-+ User Service: http://localhost:5000
-+ Auth Service: http://localhost:5001
-+ Destination Service: http://localhost:5002
++ User Service:  http://127.0.0.1:5000
++ Auth Service:  http://127.0.0.1:5001
++ Destination Service:  http://127.0.0.1:5002
 
 
 
