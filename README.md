@@ -85,6 +85,7 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
 
    ```
    https://github.com/mdadnanshuvo/journey-sync-api.git
+   
    cd journey-sync-api
 
 2. **Create a Virtual Environment**
@@ -92,10 +93,13 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
    python -m venv venv
    
 3. **Activate the virtual environment**
+   
    **On Windows**
+   
    ```
    venv\Scripts\activate
-  ***On macOS/Linux
+  **On macOS/Linux**
+  
 ```
  source venv/bin/activate
 ```
