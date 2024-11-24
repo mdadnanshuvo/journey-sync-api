@@ -83,8 +83,42 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
 
 1. **Clone the repository:**
 
-   ```bash
+   ```
    https://github.com/mdadnanshuvo/journey-sync-api.git
    cd journey-sync-api
- ```
+
 2. **Create a Virtual Environment**
+   ```
+   python -m venv venv
+   
+3. **Activate the virtual environment**
+   **On Windows**
+   ```
+   venv\Scripts\activate
+  ***On macOS/Linux
+```
+ source venv/bin/activate
+```
+4. **Intall dependencies**
+   ```
+   pip install -r requirements.txt
+
+### Running the server
+
+1. **Run all services using run_services.py script**
+   ```
+   python run_services.py
+   
+Each service will start on its own port:
+
++ User Service: http://localhost:5000
++ Auth Service: http://localhost:5001
++ Destination Service: http://localhost:5002
+
+
+
+
+
+   
+
+
