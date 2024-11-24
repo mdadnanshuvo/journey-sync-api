@@ -188,4 +188,4 @@ def swagger_spec():
     })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5002)  # Running on a different port for the auth_service
+    app.run(debug=True, port=5001)  # Running on a different port for the auth_service

@@ -9,3 +9,4 @@ class DestinationSchema(Schema):
     
     # Location of the destination
     location = fields.Str(required=True, validate=validate.Length(min=1))
+
