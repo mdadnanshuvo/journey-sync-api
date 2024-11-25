@@ -201,7 +201,17 @@ You can test the APIs of the **Destination_Service** by visiting the following S
 
 ---
 
-        
+
+## **4. Automated Testing with `pytest`**
+
+For automated testing, you can use `pytest` to test all the APIs across the three services and measure code coverage.
+
+### **Running Tests**
+Run the following command in your terminal:
+
+```bash
+pytest --cov=Users --cov=Auth --cov=Destination tests/
+
     
 
 
