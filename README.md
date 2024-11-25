@@ -83,10 +83,11 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
 
 1. **Clone the repository:**
 
-   ```
-  git clone https://github.com/mdadnanshuvo/journey-sync-api.git
-   
-  cd journey-sync-api
+ ```
+ git clone https://github.com/mdadnanshuvo/journey-sync-api.git
+ cd journey-sync-api
+```
+ 
 
 2. **Create a Virtual Environment**
    ```
