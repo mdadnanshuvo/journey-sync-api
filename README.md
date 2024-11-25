@@ -128,27 +128,79 @@ Each service will start on its own port:
 + Destination Service:  http://127.0.0.1:5002
 
 
-2. **Test all the APIs using Swagger UI**
-   
-    1. **User_Service**
-       + Please visit  [Swagger UI] http://127.0.0.1:5000/swagger to interact with Swagger UI to test the APIs of user_service.
-       + There will be three http methods - POST/register, POST/login and GET/profil
-       + POST/register will register new user/admin based on the data defined by the User_Schema
-       + POST/login referes to logged in existing user/admin providing access token. The access token is encrypted based on user/admin's id and role in order to specify the role decrypting the access token. Swagger UI will provide a button called Authorize on the top-left corner to authorize the user/admin's credentials.
-       + After successfully logged in using the secure and authentic token, current user/admin can explore thier profile and this will be done by GET/profile http method.
+# API Testing with Swagger UI
 
-    2. **Auth_Service**
-       + Please visit  [Swagger UI] http://127.0.0.1:5001/swagger to interact with Swagger UI to test the APIs of auth_service.
-       + Two http methods can be found in this ui - one for validating the access token generated in the POST/login section in user_service or http://127.0.0.1:5000/swagger url, and the second one is desinged to specify the role decrypting the access token.
-       + This ui will conclude an authorize button by Swagger ui, functioned by bearerAuth to provide the access token as http header.
-       + Valid access token will lead successful interactions with both of the method.
+This guide explains how to interact with and test the APIs of three services (User_Service, Auth_Service, and Destination_Service) using Swagger UI.
 
-    3. **Destination_Service**
-        + Please visit  [Swagger UI] http://127.0.0.1:5002/swagger to interact with Swagger UI to test the APIs of destination_service.
-        + This service provides three http methods - POST/destinations (Admin-only) to add new destination , POST/delete/destination-id (Admin-only) to delete destinations, and GET/destinations (both user and admin) to witness all the existing destinations.
-        + The role will be specified based on the info by decrpyting the user/admin access token. Just like the previous to services, this service too will have a authorize button on the top-left corner or the Swagger UI provided by bearerAuth to authorize and specify the role as two of the crucial http methods can only be done by Admin.
-        + After successfully authorize and if the role is specified as Admin, Deletion or Addition can be made.
-        + POST/destinations can be made by both users and admins but they need to be authorized by the access token. 
+---
+
+## 1. User_Service API
+
+You can test the APIs of the **User_Service** by visiting the following Swagger UI:
+
+- [User_Service Swagger UI](http://127.0.0.1:5000/swagger)
+
+### Available Endpoints:
+- **POST /register**:
+  - Registers a new user or admin based on the data defined by the **User_Schema**.
+  
+- **POST /login**:
+  - Logs in an existing user or admin.
+  - Returns an **access token**, which is encrypted based on the user's/admin's ID and role. This token will be used to authorize requests for the user/admin's profile.
+
+- **GET /profile**:
+  - Retrieves the profile of the currently logged-in user/admin.
+  - This endpoint requires a valid **access token** for authentication.
+
+### Authentication:
+- To interact with the protected endpoints (like **GET /profile**), you will first need to log in via **POST /login** and obtain an access token.
+- **Swagger UI** provides an **Authorize** button in the top-left corner to enter your login credentials and receive the token.
+- The access token must be included in the request to authorize the user/admin's profile interaction.
+
+---
+
+## 2. Auth_Service API
+
+You can test the APIs of the **Auth_Service** by visiting the following Swagger UI:
+
+- [Auth_Service Swagger UI](http://127.0.0.1:5001/swagger)
+
+### Available Endpoints:
+- **POST /validate-token**:
+  - Validates the access token that was generated in the **POST /login** endpoint of **User_Service**.
+  
+- **POST /decrypt-role**:
+  - Decodes and specifies the role of the user or admin by decrypting the access token.
+
+### Authentication:
+- Swagger UI provides an **Authorize** button in the top-left corner for entering your **Bearer token** (the access token from **User_Service**).
+- Once the token is provided, you can test both endpoints. A valid access token is required for successful interactions with these methods.
+
+---
+
+## 3. Destination_Service API
+
+You can test the APIs of the **Destination_Service** by visiting the following Swagger UI:
+
+- [Destination_Service Swagger UI](http://127.0.0.1:5002/swagger)
+
+### Available Endpoints:
+- **POST /destinations** (Admin-only):
+  - Adds a new destination. This is restricted to admin users only.
+
+- **POST /delete/destination-id** (Admin-only):
+  - Deletes a destination by ID. This is restricted to admin users only.
+
+- **GET /destinations** (User and Admin):
+  - Retrieves a list of all existing destinations. Both users and admins can access this endpoint.
+
+### Authentication:
+- Similar to the previous services, you will need to authorize using the **Bearer token** from **User_Service**.
+- Swagger UI provides an **Authorize** button in the top-left corner for entering your **Bearer token**.
+- After successful authorization, you can test the endpoints. Certain endpoints (like **POST /destinations** and **POST /delete/destination-id**) are restricted to **admin users** and require the role to be specified in the access token.
+
+---
+
         
     
 
