@@ -131,20 +131,20 @@ Each service will start on its own port:
 2. **Test all the APIs using Swagger UI**
    
     1. **User_Service**
-       + Please visit  [this link] http://127.0.0.1:5000/swagger to interact with Swagger UI to test the APIs of user_service.
+       + Please visit  [Swagger UI] http://127.0.0.1:5000/swagger to interact with Swagger UI to test the APIs of user_service.
        + There will be three http methods - POST/register, POST/login and GET/profil
        + POST/register will register new user/admin based on the data defined by the User_Schema
        + POST/login referes to logged in existing user/admin providing access token. The access token is encrypted based on user/admin's id and role in order to specify the role decrypting the access token. Swagger UI will provide a button called Authorize on the top-left corner to authorize the user/admin's credentials.
        + After successfully logged in using the secure and authentic token, current user/admin can explore thier profile and this will be done by GET/profile http method.
 
     2. **Auth_Service**
-       + Please visit  [this link] http://127.0.0.1:5001/swagger to interact with Swagger UI to test the APIs of auth_service.
+       + Please visit  [Swagger UI] http://127.0.0.1:5001/swagger to interact with Swagger UI to test the APIs of auth_service.
        + Two http methods can be found in this ui - one for validating the access token generated in the POST/login section in user_service or http://127.0.0.1:5000/swagger url, and the second one is desinged to specify the role decrypting the access token.
        + This ui will conclude an authorize button by Swagger ui, functioned by bearerAuth to provide the access token as http header.
        + Valid access token will lead successful interactions with both of the method.
 
     3. **Destination_Service**
-        + Please visit  [this link] http://127.0.0.1:5002/swagger to interact with Swagger UI to test the APIs of destination_service.
+        + Please visit  [Swagger UI] http://127.0.0.1:5002/swagger to interact with Swagger UI to test the APIs of destination_service.
         + This service provides three http methods - POST/destinations (Admin-only) to add new destination , POST/delete/destination-id (Admin-only) to delete destinations, and GET/destinations (both user and admin) to witness all the existing destinations.
         + The role will be specified based on the info by decrpyting the user/admin access token. Just like the previous to services, this service too will have a authorize button on the top-left corner or the Swagger UI provided by bearerAuth to authorize and specify the role as two of the crucial http methods can only be done by Admin.
         + After successfully authorize and if the role is specified as Admin, Deletion or Addition can be made.
