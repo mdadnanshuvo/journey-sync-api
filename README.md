@@ -154,7 +154,7 @@ You can test the APIs of the **User_Service** by visiting the following Swagger 
 
 ### Authentication:
 - To interact with the protected endpoints (like **GET /profile**), you will first need to log in via **POST /login** and obtain an access token.
-- **Swagger UI** provides an **Authorize** button in the top-left corner to enter your login credentials and receive the token.
+- **Swagger UI** provides an **Authorize** button in the top-right corner to enter your login credentials and receive the token.
 - The access token must be included in the request to authorize the user/admin's profile interaction.
 
 ---
@@ -173,7 +173,7 @@ You can test the APIs of the **Auth_Service** by visiting the following Swagger 
   - Decodes and specifies the role of the user or admin by decrypting the access token.
 
 ### Authentication:
-- Swagger UI provides an **Authorize** button in the top-left corner for entering your **Bearer token** (the access token from **User_Service**).
+- Swagger UI provides an **Authorize** button in the top-right corner for entering your **Bearer token** (the access token from **User_Service**).
 - Once the token is provided, you can test both endpoints. A valid access token is required for successful interactions with these methods.
 
 ---
@@ -196,7 +196,7 @@ You can test the APIs of the **Destination_Service** by visiting the following S
 
 ### Authentication:
 - Similar to the previous services, you will need to authorize using the **Bearer token** from **User_Service**.
-- Swagger UI provides an **Authorize** button in the top-left corner for entering your **Bearer token**.
+- Swagger UI provides an **Authorize** button in the top-right corner for entering your **Bearer token**.
 - After successful authorization, you can test the endpoints. Certain endpoints (like **POST /destinations** and **POST /delete/destination-id**) are restricted to **admin users** and require the role to be specified in the access token.
 
 ---
