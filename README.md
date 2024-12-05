@@ -98,7 +98,7 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
 3. **Create a virtual environment:**
 Set up a virtual environment to manage project dependencies:
  ```
- python3 -m vevn venv
+ python3 -m venv venv
 
 ```
    
