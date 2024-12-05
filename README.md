@@ -88,12 +88,8 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
  cd journey-sync-api
 ```
  
-
-2. **Create a Virtual Environment**
-   ```
-   python -m venv venv
    
-3. **Activate the virtual environment**
+2. **Activate the virtual environment**
    
    **On Windows**
    
@@ -107,7 +103,7 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
    source venv/bin/activate
    ```
 
-4. **Intall dependencies**
+3. **Intall dependencies**
    
     ```
     pip install -r requirements.txt
