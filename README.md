@@ -85,11 +85,24 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
 
  ```
  git clone https://github.com/mdadnanshuvo/journey-sync-api.git
- cd journey-sync-api
+
 ```
- 
+
+2. **Change the working directory to the cloned repository:**
+
+ ```
+ cd journey-sync-api
+
+```
+
+3. **Create a virtual environment:**
+Set up a virtual environment to manage project dependencies:
+ ```
+ python3 -m vevn venv
+
+```
    
-2. **Activate the virtual environment**
+4. **Activate the virtual environment**
    
    **On Windows**
    
@@ -103,7 +116,7 @@ If you don’t have `pip` or `venv` installed, follow the installation guides on
    source venv/bin/activate
    ```
 
-3. **Intall dependencies**
+5. **Intall dependencies**
    
     ```
     pip install -r requirements.txt
