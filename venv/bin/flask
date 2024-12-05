@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/home/w3e63/Projects/flask again/journey-sync-api/venv/bin/python3" "$0" "$@"
-' '''
+#!/home/w3e63/Projects/wwe/journey-sync-api/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
